@@ -1,6 +1,7 @@
 name: Build and Publish
 
 on:
+  workflow_dispatch: # Manuel tetikleme özelliği eklendi
   push:
     branches-ignore:
       - nightly
