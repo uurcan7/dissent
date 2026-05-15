@@ -409,6 +409,12 @@ var overrideMemberColors = prefs.NewBool(false, prefs.PropMeta{
 	Description: "Use generated colors instead of role colors for members.",
 })
 
+var showMemberTag = prefs.NewBool(true, prefs.PropMeta{
+	Name:        "Show Member Tag",
+	Section:     "Messages",
+	Description: "Whether the member tag/username is also shown if they are using a nickname.",
+})
+
 // MemberMarkup is like AuthorMarkup but for any member inside a guild.
 func (s *State) MemberMarkup(gID discord.GuildID, u *discord.GuildUser, mods ...author.MarkupMod) string {
 	name := u.DisplayOrUsername()
@@ -426,7 +432,7 @@ func (s *State) MemberMarkup(gID discord.GuildID, u *discord.GuildUser, mods ...
 			goto noMember
 		}
 
-		if u.Member != nil && u.Member.Nick != "" {
+		if u.Member != nil && showMemberTag.Value() && u.Member.Nick != "" {
 			name = u.Member.Nick
 			suffix += fmt.Sprintf(
 				` <span weight="normal">(%s)</span>`,
